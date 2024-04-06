@@ -67,6 +67,7 @@ public extension URL {
         return url.isDuckDuckGo
     }
 
+    // TODO: - isDefaultSearchEngine
     var isDuckDuckGo: Bool { isPart(ofDomain: URL.ddg.host!) }
 
     var isDuckDuckGoStatic: Bool {
@@ -185,7 +186,9 @@ public final class StatisticsDependentURLFactory {
 
         return makeSearchURL(text: query, additionalParameters: parameters)
     }
-
+    
+    
+    // MARK: - Here the searchURL is made from the search term
     /**
      Generates a search url with the source (t) https://duck.co/help/privacy/t
      and cohort (atb) https://duck.co/help/privacy/atb
@@ -195,7 +198,9 @@ public final class StatisticsDependentURLFactory {
         let searchURL = URL.ddg
             .appendingParameter(name: URL.Param.search, value: text)
             .appendingParameters(additionalParameters)
-        return applyingStatsParams(to: searchURL)
+        // return applyingStatsParams(to: searchURL)
+        // Any search engine can be used like this
+        return URL(string: "https://search.brave.com/search?q=\(text)")!
     }
 
     func applyingStatsParams(to url: URL) -> URL {
